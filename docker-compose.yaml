@@ -1,0 +1,14 @@
+services:
+  postgres:
+    container_name: beans-review
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=testpass123
+      - POSTGRES_DB=beans-review
+    ports:
+      - 6500:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+volumes:
+  postgres_data:
