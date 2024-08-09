@@ -12,20 +12,69 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  id          String   @id @default(uuid())
+  email       String   @unique
+  name        String?
+  reviews     Review[]
+  joinedSince DateTime @default(now())
+  avatar      String?
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
+model Review {
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  title     String
   content   String?
   published Boolean  @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  bean      Bean     @relation(fields: [beanId], references: [id])
+  beanId    String
+  Rating    Int
+  photo     String?
+}
+
+model Roaster {
+  id      String  @id @default(uuid())
+  name    String
+  address String
+  country String
+  bean    Bean[]
+  website String?
+  photo   String?
+}
+
+model Bean {
+  id          String      @id @default(uuid())
+  name        String
+  produceAt   DateTime
+  roaster     Roaster     @relation(fields: [roasterId], references: [id])
+  roasterId   String
+  review      Review[]
+  tastingNote TastingNote
+  website     String?
+  origin      String
+  process     Process
+  description String?
+  photo       String?
+}
+
+enum Process {
+  Washed
+  Natural
+  Honey
+  Special
+  Other
+}
+
+enum TastingNote {
+  Fruity
+  Cocoa
+  Sweetness
+  Floral
+  Sour
+  Baking
+  Spice
+  Green
+  Other
 }

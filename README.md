@@ -5,6 +5,9 @@ docker-compose up -d
 npx prisma db pull
 npx prisma migrate dev --name <NAME>
 ```
+
+https://miro.com/app/board/uXjVKswm-sU=/?diagramming=
+
 This example shows how to implement a **GraphQL server with TypeScript** with the following stack:
 
 - [**GraphQL Yoga**](https://the-guild.dev/graphql/yoga-server): GraphQL server

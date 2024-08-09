@@ -1,13 +1,13 @@
 import { builder } from '../builder'
 import { prisma } from '../db'
-import { PostCreateInput } from './post'
+import { ReviewCreateInput } from "./review"
 
 builder.prismaObject('User', {
   fields: (t) => ({
-    id: t.exposeInt('id'),
+    id: t.exposeString('id'),
     name: t.exposeString('name', { nullable: true }),
     email: t.exposeString('email'),
-    posts: t.relation('posts'),
+    reviews: t.relation('reviews'),
   }),
 })
 
@@ -22,7 +22,7 @@ const UserCreateInput = builder.inputType('UserCreateInput', {
   fields: (t) => ({
     email: t.string({ required: true }),
     name: t.string(),
-    posts: t.field({ type: [PostCreateInput] }),
+    reviews: t.field({ type: [ReviewCreateInput] }),
   }),
 })
 
@@ -33,29 +33,28 @@ builder.queryFields((t) => ({
   }),
 }))
 
-builder.mutationFields((t) => ({
-  signupUser: t.prismaField({
-    type: 'User',
-    args: {
-      data: t.arg({
-        type: UserCreateInput,
-        required: true,
-      }),
-    },
-    resolve: (query, parent, args) => {
-      return prisma.user.create({
-        ...query,
-        data: {
-          email: args.data.email,
-          name: args.data.name,
-          posts: {
-            create: (args.data.posts ?? []).map((post) => ({
-              title: post.title,
-              content: post.content ?? undefined,
-            })),
-          },
-        },
-      })
-    },
-  }),
-}))
+// builder.mutationFields((t) => ({
+//   signupUser: t.prismaField({
+//     type: 'User',
+//     args: {
+//       data: t.arg({
+//         type: UserCreateInput,
+//         required: true,
+//       }),
+//     },
+//     resolve: (query, parent, args) => {
+//       return prisma.user.create({
+//         ...query,
+//         data: {
+//           email: args.data.email,
+//           name: args.data.name,
+//           reviews: {
+//             create: (args.data ?? []).map((review) => ({
+//               content: review.content ?? undefined,
+//             })),
+//           },
+//         },
+//       })
+//     },
+//   }),
+// }))
