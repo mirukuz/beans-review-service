@@ -48,7 +48,7 @@ builder.queryFields((t) => ({
         where: { id: args.id },
       }),
   }),
-  feed: t.prismaField({
+  AllReviews: t.prismaField({
     type: ['Review'],
     args: {
       searchString: t.arg.string(),

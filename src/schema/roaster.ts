@@ -5,10 +5,12 @@ builder.prismaObject('Roaster', {
   fields: (t) => ({
     id: t.exposeString('id'),
     name: t.exposeString('name'),
+    description: t.exposeString('description'),
     address: t.exposeString('address'),
     country: t.exposeString('country'),
     website: t.exposeString('website'),
     bean: t.relation('bean'),
+    photo: t.exposeString('photo'),
   }),
 })
 

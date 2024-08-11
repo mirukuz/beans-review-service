@@ -1,7 +1,24 @@
 import { builder } from '../builder'
-import { prisma, TastingNote, Process } from '../db'
+import { prisma } from '../db'
 
-builder.enumType(TastingNote, { name: 'TastingNote'})
+// Define enums
+const Process = builder.enumType('Process', {
+  values: ['Washed', 'Natural', 'Honey', 'Special', 'Other'],
+})
+
+const TastingNote = builder.enumType('TastingNote', {
+  values: [
+    'Fruity',
+    'Cocoa',
+    'Sweetness',
+    'Floral',
+    'Sour',
+    'Baking',
+    'Spice',
+    'Green',
+    'Other',
+  ],
+})
 builder.prismaObject('Bean', {
   fields: (t) => ({
     id: t.exposeString('id'),
@@ -9,10 +26,9 @@ builder.prismaObject('Bean', {
     produceAt: t.expose('produceAt', { type: 'DateTime' }),
     roaster: t.relation('roaster'),
     review: t.relation('review'),
-    // tastingNote: t.field({
-    //     type: TastingNote,
-    //     resolve: (x) => TastingNote[x.tastingNote as keyof typeof TastingNote]
-    //  }),
+    photo: t.exposeString('photo'),
+    tastingNote: t.expose('tastingNote', { type: TastingNote }),
+    process: t.expose('process', { type: Process }),
     //  process: t.field({
     //     type: Process,
     //     resolve: (x) => Process[x.process as keyof typeof Process]
@@ -65,9 +81,9 @@ builder.queryFields((t) => ({
       searchString: t.arg.string(),
       skip: t.arg.int(),
       take: t.arg.int(),
-    //   orderBy: t.arg({
-    //     type: ReviewOrderByUpdatedAtInput,
-    //   }),
+      //   orderBy: t.arg({
+      //     type: ReviewOrderByUpdatedAtInput,
+      //   }),
     },
     resolve: (query, parent, args) => {
       const or = args.searchString

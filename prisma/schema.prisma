@@ -35,13 +35,14 @@ model Review {
 }
 
 model Roaster {
-  id      String  @id @default(uuid())
-  name    String
-  address String
-  country String
-  bean    Bean[]
-  website String?
-  photo   String?
+  id          String  @id @default(uuid())
+  name        String
+  description String
+  address     String
+  country     String
+  bean        Bean[]  
+  website     String?
+  photo       String?
 }
 
 model Bean {

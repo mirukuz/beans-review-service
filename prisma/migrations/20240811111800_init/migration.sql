@@ -34,6 +34,7 @@ CREATE TABLE "Review" (
 CREATE TABLE "Roaster" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
     "address" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "website" TEXT,

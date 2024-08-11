@@ -26,6 +26,7 @@ const userData: Prisma.UserCreateInput[] = [
                 create: {
                   name: "Ethiopian Roaster Co.",
                   address: "123 Coffee Street, Addis Ababa",
+                  description: "Nestled in the heart of the Rockies, Mountain Peak Roasters specializes in crafting premium, high-altitude coffees that capture the crispness of mountain air and the richness of fertile soils. Sourcing beans from the world's finest coffee-growing regions, each batch is meticulously roasted to bring out flavors that range from velvety chocolate undertones to bright, citrus notes. Mountain Peak Roasters offers an escape to the serene wilderness with every sip, making it the perfect companion for your next adventure or a cozy morning at home.",
                   country: "Ethiopia",
                   website: "https://ethiopianroaster.example.com",
                   photo: "https://example.com/roasters/ethiopian_roaster.png",
@@ -60,6 +61,7 @@ const userData: Prisma.UserCreateInput[] = [
               roaster: {
                 create: {
                   name: "Colombian Delights",
+                  description: "Colombian Delights takes pride in its direct connection to the lush, mountainous coffee regions of Colombia. With roots deeply embedded in local culture and agriculture, this roaster is dedicated to bringing the authentic taste of Colombian coffee to enthusiasts worldwide. Known for their attention to detail and commitment to ethical practices, Colombian Delights ensures every cup offers a harmonious blend of rich, fruity undertones with a smooth, chocolatey finish. Experience the heart of Colombia in each aromatic cup, perfect for those who appreciate the genuine flavors of this coffee paradise.",
                   address: "456 Coffee Avenue, Bogotá",
                   country: "Colombia",
                   website: "https://colombiandelights.example.com",
@@ -96,6 +98,7 @@ const userData: Prisma.UserCreateInput[] = [
                 create: {
                   name: "Kenyan Coffees",
                   address: "789 Coffee Blvd, Nairobi",
+                  description: "Kenyan Coffees is renowned for its dedication to sourcing the finest beans from the high-altitude regions of Kenya, where the unique climate and fertile soil contribute to some of the world's most sought-after coffee profiles. This roastery is committed to quality and sustainability, ensuring that each batch is a true reflection of Kenya’s distinctive taste profile. Expect lively acidity, bright citrus notes, and complex flavors that dance on your palate. Kenyan Coffees offers a luxurious coffee experience that celebrates the vibrant landscapes and rich heritage of Kenya.",
                   country: "Kenya",
                   website: "https://kenyancoffees.example.com",
                   photo: "https://example.com/roasters/kenyan_coffees.png",
@@ -116,11 +119,12 @@ const userData: Prisma.UserCreateInput[] = [
               produceAt: new Date("2021-11-15"),
               origin: "Brazil",
               process: "Natural",
-              description: "A naturally processed coffee with prominent sweetness.",
+              description: "",
               roaster: {
                 create: {
                   name: "Brazilian Beans",
                   address: "101 Coffee Road, São Paulo",
+                  description: "Brazilian Beans roastery harnesses the immense coffee heritage of Brazil, the world's largest coffee producer. Located in the bustling city of São Paulo, this roastery sources beans from Brazil's famed coffee-growing regions, ensuring each roast is a true representation of Brazilian excellence. Brazilian Beans focuses on full-bodied coffees with nutty, sweet, and chocolatey characteristics that are perfect for any coffee lover. Each cup promises consistency, depth, and a touch of Brazilian warmth, making it a staple for both casual drinkers and coffee aficionados.",
                   country: "Brazil",
                   website: "https://brazilianbeans.example.com",
                   photo: "https://example.com/roasters/brazilian_beans.png",

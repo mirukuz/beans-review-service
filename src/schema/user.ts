@@ -11,6 +11,25 @@ builder.prismaObject('User', {
   }),
 })
 
+builder.queryFields((t) => ({
+  userById: t.prismaField({
+    type: 'User',
+    nullable: true,
+    args: {
+      id: t.arg.string({ required: true }),
+    },
+    resolve: (query, parent, args) =>
+      prisma.user.findUnique({
+        ...query,
+        where: { id: args.id },
+      }),
+  }),
+  allUsers: t.prismaField({
+    type: ['User'],
+    resolve: (query) => prisma.user.findMany({ ...query }),
+  }),
+}))
+
 export const UserUniqueInput = builder.inputType('UserUniqueInput', {
   fields: (t) => ({
     id: t.int(),
@@ -25,13 +44,6 @@ const UserCreateInput = builder.inputType('UserCreateInput', {
     reviews: t.field({ type: [ReviewCreateInput] }),
   }),
 })
-
-builder.queryFields((t) => ({
-  allUsers: t.prismaField({
-    type: ['User'],
-    resolve: (query) => prisma.user.findMany({ ...query }),
-  }),
-}))
 
 // builder.mutationFields((t) => ({
 //   signupUser: t.prismaField({
