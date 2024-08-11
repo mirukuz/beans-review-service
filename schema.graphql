@@ -27,6 +27,13 @@ type Mutation {
   deleteRoaster(id: String!): Roaster
 }
 
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
 enum Process {
   Honey
   Natural
@@ -66,7 +73,7 @@ input ReviewOrderByUpdatedAtInput {
 
 type Roaster {
   address: String
-  bean: [Bean!]
+  beans: [Bean!]
   country: String
   description: String
   id: String
@@ -98,10 +105,21 @@ enum TastingNote {
 }
 
 type User {
+  beans(after: String, before: String, first: Int, last: Int): UserBeansConnection
   email: String
   id: String
   name: String
   reviews: [Review!]
+}
+
+type UserBeansConnection {
+  edges: [UserBeansConnectionEdge]
+  pageInfo: PageInfo!
+}
+
+type UserBeansConnectionEdge {
+  cursor: String!
+  node: Bean
 }
 
 input UserCreateInput {

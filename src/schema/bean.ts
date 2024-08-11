@@ -29,13 +29,8 @@ builder.prismaObject('Bean', {
     photo: t.exposeString('photo'),
     tastingNote: t.expose('tastingNote', { type: TastingNote }),
     process: t.expose('process', { type: Process }),
-    //  process: t.field({
-    //     type: Process,
-    //     resolve: (x) => Process[x.process as keyof typeof Process]
-    //  }),
     website: t.exposeString('website'),
     origin: t.exposeString('origin'),
-    // bean: t.relation('bean'),
   }),
 })
 

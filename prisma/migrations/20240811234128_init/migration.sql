@@ -24,7 +24,7 @@ CREATE TABLE "Review" (
     "published" BOOLEAN NOT NULL DEFAULT false,
     "authorId" TEXT NOT NULL,
     "beanId" TEXT NOT NULL,
-    "Rating" INTEGER NOT NULL,
+    "rating" INTEGER NOT NULL,
     "photo" TEXT,
 
     CONSTRAINT "Review_pkey" PRIMARY KEY ("id")
@@ -49,6 +49,7 @@ CREATE TABLE "Bean" (
     "name" TEXT NOT NULL,
     "produceAt" TIMESTAMP(3) NOT NULL,
     "roasterId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     "tastingNote" "TastingNote" NOT NULL,
     "website" TEXT,
     "origin" TEXT NOT NULL,
@@ -70,3 +71,6 @@ ALTER TABLE "Review" ADD CONSTRAINT "Review_beanId_fkey" FOREIGN KEY ("beanId") 
 
 -- AddForeignKey
 ALTER TABLE "Bean" ADD CONSTRAINT "Bean_roasterId_fkey" FOREIGN KEY ("roasterId") REFERENCES "Roaster"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Bean" ADD CONSTRAINT "Bean_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

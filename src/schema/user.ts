@@ -1,6 +1,6 @@
 import { builder } from '../builder'
 import { prisma } from '../db'
-import { ReviewCreateInput } from "./review"
+import { ReviewCreateInput } from './review'
 
 builder.prismaObject('User', {
   fields: (t) => ({
@@ -8,6 +8,23 @@ builder.prismaObject('User', {
     name: t.exposeString('name', { nullable: true }),
     email: t.exposeString('email'),
     reviews: t.relation('reviews'),
+    beans: t.prismaConnection({
+      type: 'Bean',
+      cursor: 'id',
+      resolve: async (query, user, args, context, info) => {
+        const reviewedBeans = await prisma.bean.findMany({
+          ...query,
+          where: {
+            review: {
+              some: {
+                authorId: user.id,
+              },
+            },
+          },
+        })
+        return reviewedBeans
+      },
+    }),
   }),
 })
 

@@ -9,7 +9,7 @@ builder.prismaObject('Roaster', {
     address: t.exposeString('address'),
     country: t.exposeString('country'),
     website: t.exposeString('website'),
-    bean: t.relation('bean'),
+    beans: t.relation('beans'),
     photo: t.exposeString('photo'),
   }),
 })

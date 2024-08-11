@@ -17,6 +17,7 @@ model User {
   name        String?
   reviews     Review[]
   joinedSince DateTime @default(now())
+  beans       Bean[]
   avatar      String?
 }
 
@@ -30,7 +31,7 @@ model Review {
   authorId  String
   bean      Bean     @relation(fields: [beanId], references: [id])
   beanId    String
-  Rating    Int
+  rating    Int
   photo     String?
 }
 
@@ -40,7 +41,7 @@ model Roaster {
   description String
   address     String
   country     String
-  bean        Bean[]  
+  beans       Bean[]  
   website     String?
   photo       String?
 }
@@ -51,6 +52,8 @@ model Bean {
   produceAt   DateTime
   roaster     Roaster     @relation(fields: [roasterId], references: [id])
   roasterId   String
+  user     User     @relation(fields: [userId], references: [id])
+  userId String
   review      Review[]
   tastingNote TastingNote
   website     String?
