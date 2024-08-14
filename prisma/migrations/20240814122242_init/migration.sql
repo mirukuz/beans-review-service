@@ -47,9 +47,8 @@ CREATE TABLE "Roaster" (
 CREATE TABLE "Bean" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "produceAt" TIMESTAMP(3) NOT NULL,
     "roasterId" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" TEXT,
     "tastingNote" "TastingNote" NOT NULL,
     "website" TEXT,
     "origin" TEXT NOT NULL,
@@ -73,4 +72,4 @@ ALTER TABLE "Review" ADD CONSTRAINT "Review_beanId_fkey" FOREIGN KEY ("beanId") 
 ALTER TABLE "Bean" ADD CONSTRAINT "Bean_roasterId_fkey" FOREIGN KEY ("roasterId") REFERENCES "Roaster"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Bean" ADD CONSTRAINT "Bean_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Bean" ADD CONSTRAINT "Bean_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

@@ -12,8 +12,12 @@ type Bean {
 }
 
 input BeanCreateInput {
-  content: String
-  title: String!
+  address: String!
+  country: String!
+  description: String!
+  name: String!
+  photo: String
+  website: String
 }
 
 """
@@ -22,6 +26,8 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
+  createBean(data: BeanCreateInput!): Bean
+  createRoaster(data: RoasterCreateInput!): Roaster
   deleteBean(id: String!): Bean
   deleteReview(id: String!): Review
   deleteRoaster(id: String!): Roaster
@@ -83,8 +89,12 @@ type Roaster {
 }
 
 input RoasterCreateInput {
-  content: String
-  title: String!
+  address: String!
+  country: String!
+  description: String!
+  name: String!
+  photo: String
+  website: String
 }
 
 enum SortOrder {

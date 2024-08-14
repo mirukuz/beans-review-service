@@ -41,7 +41,7 @@ model Roaster {
   description String
   address     String
   country     String
-  beans       Bean[]  
+  beans       Bean[]
   website     String?
   photo       String?
 }
@@ -49,11 +49,10 @@ model Roaster {
 model Bean {
   id          String      @id @default(uuid())
   name        String
-  produceAt   DateTime
   roaster     Roaster     @relation(fields: [roasterId], references: [id])
   roasterId   String
-  user     User     @relation(fields: [userId], references: [id])
-  userId String
+  user        User?       @relation(fields: [userId], references: [id])
+  userId      String?
   review      Review[]
   tastingNote TastingNote
   website     String?

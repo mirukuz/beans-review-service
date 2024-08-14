@@ -40,7 +40,6 @@ async function main() {
     for (const roaster of roasters) {
       const beanData: Prisma.BeanCreateInput = {
         name: faker.lorem.word(),
-        produceAt: faker.date.past(),
         origin: faker.address.country(),
         process: faker.helpers.arrayElement(['Washed', 'Natural', 'Honey', 'Special', 'Other']), // Use arrayElement to randomly pick a process
         description: faker.lorem.sentence(),

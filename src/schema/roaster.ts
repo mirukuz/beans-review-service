@@ -14,13 +14,6 @@ builder.prismaObject('Roaster', {
   }),
 })
 
-export const RoasterCreateInput = builder.inputType('RoasterCreateInput', {
-  fields: (t) => ({
-    title: t.string({ required: true }),
-    content: t.string(),
-  }),
-})
-
 // const SortOrder = builder.enumType('SortOrder', {
 //   values: ['asc', 'desc'] as const,
 // })
@@ -105,31 +98,45 @@ builder.queryFields((t) => ({
   // }),
 }))
 
+export const RoasterCreateInput = builder.inputType('RoasterCreateInput', {
+  fields: (t) => ({
+    name: t.string({ required: true }),
+    description: t.string({ required: true }),
+    country: t.string({ required: true }),
+    address: t.string({ required: true }),
+    website: t.string({ required: false }),
+    photo: t.string({ required: false }),
+  }),
+})
+
 builder.mutationFields((t) => ({
-  // createDraft: t.prismaField({
-  //   type: 'Review',
-  //   args: {
-  //     data: t.arg({
-  //       type: ReviewCreateInput,
-  //       required: true,
-  //     }),
-  //     authorEmail: t.arg.string({ required: true }),
-  //   },
-  //   resolve: (query, parent, args) => {
-  //     return prisma.review.create({
-  //       ...query,
-  //       data: {
-  //         content: args.data.content ?? undefined,
-  //         published: false,
-  //         author: {
-  //           connect: {
-  //             email: args.authorEmail,
-  //           },
-  //         },
-  //       },
-  //     })
-  //   },
-  // }),
+  createRoaster: t.prismaField({
+    type: 'Roaster',
+    args: {
+      data: t.arg({
+        type: RoasterCreateInput,
+        required: true
+      }),
+    },
+    resolve: (query, parent, args) => {
+      return prisma.roaster.create({
+        ...query,
+        data: {
+          description: args.data.description,
+          name: args.data.name,
+          country: args.data.country,
+          address: args.data.address,
+          website: args.data.website,
+          photo: args.data.photo
+          // author: {
+          //   connect: {
+          //     email: args.authorEmail,
+          //   },
+          // },
+        },
+      })
+    },
+  }),
   // togglePublishReview: t.prismaField({
   //   type: 'Review',
   //   args: {
