@@ -12,13 +12,6 @@ builder.prismaObject('Review', {
   }),
 })
 
-export const ReviewCreateInput = builder.inputType('ReviewCreateInput', {
-  fields: (t) => ({
-    title: t.string({ required: true }),
-    content: t.string(),
-  }),
-})
-
 const SortOrder = builder.enumType('SortOrder', {
   values: ['asc', 'desc'] as const,
 })
@@ -107,31 +100,46 @@ builder.queryFields((t) => ({
   // }),
 }))
 
+export const ReviewCreateInput = builder.inputType('ReviewCreateInput', {
+  fields: (t) => ({
+    content: t.string({ required: true }),
+    rating: t.int({ required: true }),
+    photo: t.string()
+  }),
+})
+
 builder.mutationFields((t) => ({
-  // createDraft: t.prismaField({
-  //   type: 'Review',
-  //   args: {
-  //     data: t.arg({
-  //       type: ReviewCreateInput,
-  //       required: true,
-  //     }),
-  //     authorEmail: t.arg.string({ required: true }),
-  //   },
-  //   resolve: (query, parent, args) => {
-  //     return prisma.review.create({
-  //       ...query,
-  //       data: {
-  //         content: args.data.content ?? undefined,
-  //         published: false,
-  //         author: {
-  //           connect: {
-  //             email: args.authorEmail,
-  //           },
-  //         },
-  //       },
-  //     })
-  //   },
-  // }),
+  createReview: t.prismaField({
+    type: 'Review',
+    args: {
+      data: t.arg({
+        type: ReviewCreateInput,
+        required: true,
+      }),
+      beanId: t.arg.string({required: true}),
+      authorId: t.arg.string({required: true}),
+    },
+    resolve: (query, parent, args) => {
+      return prisma.review.create({
+        ...query,
+        data: {
+          rating: args.data.rating,
+          content: args.data.content,
+          photo: args.data.photo,
+          bean: {
+            connect: {
+              id: args.beanId,
+            },
+          },
+          author: {
+            connect: {
+              id: args.authorId
+            }
+          }
+        },
+      })
+    },
+  }),
   // togglePublishReview: t.prismaField({
   //   type: 'Review',
   //   args: {

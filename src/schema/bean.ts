@@ -98,7 +98,6 @@ builder.mutationFields((t) => ({
         type: BeanCreateInput,
         required: true
       }),
-      user: t.arg.string()
     },
     resolve: (query, parent, args) => {
       return prisma.bean.create({

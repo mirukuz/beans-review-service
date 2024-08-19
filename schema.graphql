@@ -4,7 +4,6 @@ type Bean {
   origin: String
   photo: String
   process: Process
-  produceAt: DateTime
   review: [Review!]
   roaster: Roaster
   tastingNote: TastingNote
@@ -16,7 +15,11 @@ input BeanCreateInput {
   country: String!
   description: String!
   name: String!
+  origin: String!
   photo: String
+  process: Process!
+  roasterId: ID!
+  tastingnote: TastingNote!
   website: String
 }
 
@@ -27,10 +30,12 @@ scalar DateTime
 
 type Mutation {
   createBean(data: BeanCreateInput!): Bean
+  createReview(authorId: String!, beanId: String!, data: ReviewCreateInput!): Review
   createRoaster(data: RoasterCreateInput!): Roaster
   deleteBean(id: String!): Bean
   deleteReview(id: String!): Review
   deleteRoaster(id: String!): Roaster
+  signupUser(data: UserCreateInput!): User
 }
 
 type PageInfo {
@@ -69,8 +74,9 @@ type Review {
 }
 
 input ReviewCreateInput {
-  content: String
-  title: String!
+  content: String!
+  photo: String
+  rating: Int!
 }
 
 input ReviewOrderByUpdatedAtInput {
@@ -133,9 +139,9 @@ type UserBeansConnectionEdge {
 }
 
 input UserCreateInput {
+  avatar: String
   email: String!
   name: String
-  reviews: [ReviewCreateInput!]
 }
 
 input UserUniqueInput {
