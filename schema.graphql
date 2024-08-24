@@ -1,4 +1,5 @@
 type Bean {
+  description: String
   id: String
   name: String
   origin: String
@@ -70,6 +71,7 @@ type Review {
   createdAt: DateTime
   id: String
   published: Boolean
+  rating: Float
   updatedAt: DateTime
 }
 
@@ -121,6 +123,7 @@ enum TastingNote {
 }
 
 type User {
+  avatar: String
   beans(after: String, before: String, first: Int, last: Int): UserBeansConnection
   email: String
   id: String

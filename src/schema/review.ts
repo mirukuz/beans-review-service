@@ -7,6 +7,7 @@ builder.prismaObject('Review', {
     createdAt: t.expose('createdAt', { type: 'DateTime' }),
     updatedAt: t.expose('updatedAt', { type: 'DateTime' }),
     published: t.exposeBoolean('published'),
+    rating: t.exposeFloat('rating'),
     content: t.exposeString('content', { nullable: true }),
     author: t.relation('author'),
   }),

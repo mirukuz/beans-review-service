@@ -7,6 +7,7 @@ builder.prismaObject('User', {
     id: t.exposeString('id'),
     name: t.exposeString('name', { nullable: true }),
     email: t.exposeString('email'),
+    avatar: t.exposeString('avatar', { nullable: true }),
     reviews: t.relation('reviews'),
     beans: t.prismaConnection({
       type: 'Bean',

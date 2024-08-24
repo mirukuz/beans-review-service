@@ -29,7 +29,7 @@ async function main() {
         description: faker.lorem.paragraph(),
         country: faker.address.country(),
         website: faker.internet.url(),
-        photo: faker.image.business(),
+        photo: faker.image.url(),
       };
       return prisma.roaster.create({ data: roasterData });
     })
@@ -41,6 +41,7 @@ async function main() {
       const beanData: Prisma.BeanCreateInput = {
         name: faker.lorem.word(),
         origin: faker.address.country(),
+        photo: faker.image.url(),
         process: faker.helpers.arrayElement(['Washed', 'Natural', 'Honey', 'Special', 'Other']), // Use arrayElement to randomly pick a process
         description: faker.lorem.sentence(),
         tastingNote: faker.helpers.arrayElement(['Floral', 'Fruity', 'Cocoa', 'Sweetness', 'Sour', 'Baking', 'Spice', 'Green', 'Other']), // Use arrayElement to randomly pick a tasting note

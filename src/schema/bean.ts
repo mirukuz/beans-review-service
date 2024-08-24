@@ -25,6 +25,7 @@ builder.prismaObject('Bean', {
     name: t.exposeString('name'),
     roaster: t.relation('roaster'),
     review: t.relation('review'),
+    description: t.exposeString('description'),
     photo: t.exposeString('photo'),
     tastingNote: t.expose('tastingNote', { type: TastingNote }),
     process: t.expose('process', { type: Process }),

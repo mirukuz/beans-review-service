@@ -24,7 +24,7 @@ CREATE TABLE "Review" (
     "published" BOOLEAN NOT NULL DEFAULT false,
     "authorId" TEXT NOT NULL,
     "beanId" TEXT NOT NULL,
-    "rating" INTEGER NOT NULL,
+    "rating" DOUBLE PRECISION NOT NULL,
     "photo" TEXT,
 
     CONSTRAINT "Review_pkey" PRIMARY KEY ("id")

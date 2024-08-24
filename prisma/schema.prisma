@@ -31,7 +31,7 @@ model Review {
   authorId  String
   bean      Bean     @relation(fields: [beanId], references: [id])
   beanId    String
-  rating    Int
+  rating    Float
   photo     String?
 }
 
