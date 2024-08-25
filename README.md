@@ -3,6 +3,7 @@
 ```
 docker-compose up -d
 npx prisma db pull
+npx prisma studio 
 npx prisma migrate dev --name <NAME>
 ```
 
