@@ -1,12 +1,14 @@
 {
   "name": "typescript-graphql",
+  "type": "module",
   "license": "MIT",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
-    "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server",
-    "start": "node dist/server",
+    "dev": "tsx src/server",
     "clean": "rm -rf dist",
     "build": "npm -s run clean && npm -s run generate && tsc && npm run build:schema",
-    "build:schema": "ts-node src/schema/index.ts",
+    "build:schema": "tsx src/schema/index.ts",
     "generate": "npm -s run generate:prisma",
     "generate:prisma": "prisma generate"
   },
@@ -14,6 +16,9 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "all"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
@@ -28,8 +33,7 @@
   "devDependencies": {
     "@types/node": "20.14.13",
     "prisma": "5.16.1",
-    "ts-node": "10.9.2",
-    "ts-node-dev": "2.0.0",
+    "tsx": "^4.18.0",
     "typescript": "5.5.4"
   },
   "prisma": {

@@ -1,11 +1,17 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig.json",
   "compilerOptions": {
-    "target": "ES2015",
     "outDir": "dist",
-    "rootDir": "src",
-    "esModuleInterop": true,
-    "lib": ["esnext"],
+    // "rootDir": "src",
     "strict": true,
+    "skipLibCheck": false,
+    "target": "es2020",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "module": "ESNext"
   },
-  "include": ["src/**/*"]
+  "exclude": ["node_modules", "dist"],
+  "include": ["prisma/*.ts", "src/**/*", "scripts/**/*"]
 }
