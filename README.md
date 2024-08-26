@@ -7,6 +7,7 @@ npx prisma studio
 npx prisma migrate dev --name <NAME>
 ```
 
+
 https://miro.com/app/board/uXjVKswm-sU=/?diagramming=
 
 This example shows how to implement a **GraphQL server with TypeScript** with the following stack:
