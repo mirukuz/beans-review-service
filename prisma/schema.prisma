@@ -38,6 +38,7 @@ model Review {
 
 model Roaster {
   id          String  @id @default(uuid())
+  published   Boolean  @default(false)
   name        String
   description String
   address     String
@@ -55,9 +56,10 @@ model Bean {
   user        User?       @relation(fields: [userId], references: [id])
   userId      String?
   review      Review[]
+  published   Boolean     @default(false)
   tastingNote TastingNote
   website     String?
-  origin      String
+  origin      Origin
   process     Process
   description String?
   photo       String?
@@ -80,5 +82,29 @@ enum TastingNote {
   Baking
   Spice
   Green
+  Other
+}
+
+enum Origin {
+  Brazil
+  Colombia
+  Ethiopia
+  Kenya
+  Guatemala
+  Honduras
+  CostaRica
+  Indonesia
+  Vietnam
+  Mexico
+  Peru
+  Nicaragua
+  Tanzania
+  Rwanda
+  Uganda
+  India
+  Yemen
+  Panama
+  ElSalvador
+  PapuaNewGuinea
   Other
 }

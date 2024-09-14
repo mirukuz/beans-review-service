@@ -4,6 +4,9 @@ CREATE TYPE "Process" AS ENUM ('Washed', 'Natural', 'Honey', 'Special', 'Other')
 -- CreateEnum
 CREATE TYPE "TastingNote" AS ENUM ('Fruity', 'Cocoa', 'Sweetness', 'Floral', 'Sour', 'Baking', 'Spice', 'Green', 'Other');
 
+-- CreateEnum
+CREATE TYPE "Origin" AS ENUM ('Brazil', 'Colombia', 'Ethiopia', 'Kenya', 'Guatemala', 'Honduras', 'CostaRica', 'Indonesia', 'Vietnam', 'Mexico', 'Peru', 'Nicaragua', 'Tanzania', 'Rwanda', 'Uganda', 'India', 'Yemen', 'Panama', 'ElSalvador', 'PapuaNewGuinea', 'Other');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -33,6 +36,7 @@ CREATE TABLE "Review" (
 -- CreateTable
 CREATE TABLE "Roaster" (
     "id" TEXT NOT NULL,
+    "published" BOOLEAN NOT NULL DEFAULT false,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "address" TEXT NOT NULL,
@@ -49,9 +53,10 @@ CREATE TABLE "Bean" (
     "name" TEXT NOT NULL,
     "roasterId" TEXT NOT NULL,
     "userId" TEXT,
+    "published" BOOLEAN NOT NULL DEFAULT false,
     "tastingNote" "TastingNote" NOT NULL,
     "website" TEXT,
-    "origin" TEXT NOT NULL,
+    "origin" "Origin" NOT NULL,
     "process" "Process" NOT NULL,
     "description" TEXT,
     "photo" TEXT,

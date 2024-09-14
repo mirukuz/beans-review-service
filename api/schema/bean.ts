@@ -19,6 +19,33 @@ const TastingNote = builder.enumType('TastingNote', {
     'Other',
   ],
 })
+
+const Origin = builder.enumType('Origin', {
+  values: [
+    'Brazil',
+    'Colombia',
+    'Ethiopia',
+    'Kenya',
+    'Guatemala',
+    'Honduras',
+    'CostaRica',
+    'Indonesia',
+    'Vietnam',
+    'Mexico',
+    'Peru',
+    'Nicaragua',
+    'Tanzania',
+    'Rwanda',
+    'Uganda',
+    'India',
+    'Yemen',
+    'Panama',
+    'ElSalvador',
+    'PapuaNewGuinea',
+    'Other'
+  ],
+})
+
 builder.prismaObject('Bean', {
   fields: (t) => ({
     id: t.exposeString('id'),
@@ -80,13 +107,11 @@ export const BeanCreateInput = builder.inputType('BeanCreateInput', {
   fields: (t) => ({
     name: t.string({ required: true }),
     description: t.string({ required: true }),
-    country: t.string({ required: true }),
-    address: t.string({ required: true }),
     website: t.string({ required: false }),
     photo: t.string({ required: false }),
     tastingnote: t.field({ type: TastingNote, required: true}),
     process: t.field({ type: Process, required: true}),
-    origin: t.string({ required: true}),
+    origin: t.field({ type: Origin, required: true}),
     roasterId: t.id({required: true})
   }),
 })

@@ -6,10 +6,10 @@ const prisma = new PrismaClient();
 async function main() {
   // Helper function to create random users
   const createRandomUser = () => ({
-    name: faker.name.fullName(),
+    name: faker.person.fullName(),
     email: faker.internet.email(),
     joinedSince: faker.date.past(),
-    avatar: faker.internet.avatar(),
+    avatar: faker.image.avatar(),
   });
 
   // Create 3 random users
@@ -25,9 +25,9 @@ async function main() {
     Array.from({ length: 3 }).map(() => {
       const roasterData: Prisma.RoasterCreateInput = {
         name: faker.company.name(),
-        address: faker.address.streetAddress(),
+        address: faker.location.streetAddress(),
         description: faker.lorem.paragraph(),
-        country: faker.address.country(),
+        country: faker.location.country(),
         website: faker.internet.url(),
         photo: faker.image.url(),
       };
@@ -40,11 +40,11 @@ async function main() {
     for (const roaster of roasters) {
       const beanData: Prisma.BeanCreateInput = {
         name: faker.lorem.word(),
-        origin: faker.address.country(),
+        origin: faker.helpers.arrayElement(['Brazil', 'CostaRica', 'Rwanda', 'ElSalvador', 'Peru']),
         photo: faker.image.url(),
-        process: faker.helpers.arrayElement(['Washed', 'Natural', 'Honey', 'Special', 'Other']), // Use arrayElement to randomly pick a process
+        process: faker.helpers.arrayElement(['Washed', 'Natural', 'Honey', 'Special', 'Other']),
         description: faker.lorem.sentence(),
-        tastingNote: faker.helpers.arrayElement(['Floral', 'Fruity', 'Cocoa', 'Sweetness', 'Sour', 'Baking', 'Spice', 'Green', 'Other']), // Use arrayElement to randomly pick a tasting note
+        tastingNote: faker.helpers.arrayElement(['Floral', 'Fruity', 'Cocoa', 'Sweetness', 'Sour', 'Baking', 'Spice', 'Green', 'Other']),
         roaster: {
           connect: {
             id: roaster.id,
@@ -64,8 +64,8 @@ async function main() {
       const reviewData: Prisma.ReviewCreateInput = {
         content: faker.lorem.paragraph(),
         published: true,
-        rating: faker.datatype.number({ min: 1, max: 5 }),
-        photo: faker.image.imageUrl(),
+        rating: faker.number.int({ min: 1, max: 5 }),
+        photo: faker.image.url(),
         bean: {
           connect: {
             id: createdBean.id,
