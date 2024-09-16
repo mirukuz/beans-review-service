@@ -51,21 +51,33 @@ CREATE TABLE "Roaster" (
 CREATE TABLE "Bean" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "roasterId" TEXT NOT NULL,
-    "userId" TEXT,
+    "roasterId" TEXT,
     "published" BOOLEAN NOT NULL DEFAULT false,
-    "tastingNote" "TastingNote" NOT NULL,
+    "tastingNote" "TastingNote"[],
     "website" TEXT,
     "origin" "Origin" NOT NULL,
     "process" "Process" NOT NULL,
     "description" TEXT,
     "photo" TEXT,
+    "submitterId" TEXT NOT NULL,
 
     CONSTRAINT "Bean_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "_ReviewedBeans" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_ReviewedBeans_AB_unique" ON "_ReviewedBeans"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_ReviewedBeans_B_index" ON "_ReviewedBeans"("B");
 
 -- AddForeignKey
 ALTER TABLE "Review" ADD CONSTRAINT "Review_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -74,7 +86,13 @@ ALTER TABLE "Review" ADD CONSTRAINT "Review_authorId_fkey" FOREIGN KEY ("authorI
 ALTER TABLE "Review" ADD CONSTRAINT "Review_beanId_fkey" FOREIGN KEY ("beanId") REFERENCES "Bean"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Bean" ADD CONSTRAINT "Bean_roasterId_fkey" FOREIGN KEY ("roasterId") REFERENCES "Roaster"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Bean" ADD CONSTRAINT "Bean_roasterId_fkey" FOREIGN KEY ("roasterId") REFERENCES "Roaster"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Bean" ADD CONSTRAINT "Bean_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Bean" ADD CONSTRAINT "Bean_submitterId_fkey" FOREIGN KEY ("submitterId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ReviewedBeans" ADD CONSTRAINT "_ReviewedBeans_A_fkey" FOREIGN KEY ("A") REFERENCES "Bean"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ReviewedBeans" ADD CONSTRAINT "_ReviewedBeans_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

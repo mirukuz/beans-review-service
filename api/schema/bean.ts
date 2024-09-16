@@ -54,10 +54,11 @@ builder.prismaObject('Bean', {
     review: t.relation('review'),
     description: t.exposeString('description'),
     photo: t.exposeString('photo'),
-    tastingNote: t.expose('tastingNote', { type: TastingNote }),
+    tastingNote: t.expose('tastingNote', { type: [TastingNote] }),
     process: t.expose('process', { type: Process }),
     website: t.exposeString('website'),
     origin: t.exposeString('origin'),
+    submitterId: t.exposeString('submitterId')
   }),
 })
 
@@ -109,7 +110,7 @@ export const BeanCreateInput = builder.inputType('BeanCreateInput', {
     description: t.string({ required: true }),
     website: t.string({ required: false }),
     photo: t.string({ required: false }),
-    tastingnote: t.field({ type: TastingNote, required: true}),
+    tastingNotes: t.field({ type: [TastingNote], required: true}),
     process: t.field({ type: Process, required: true}),
     origin: t.field({ type: Origin, required: true}),
     roasterId: t.id({required: true})
@@ -124,8 +125,17 @@ builder.mutationFields((t) => ({
         type: BeanCreateInput,
         required: true
       }),
+      submitterId: t.arg.string({required: true}),
     },
-    resolve: (query, parent, args) => {
+    resolve: async (query, parent, args) => {
+      const user = await prisma.user.findUnique({
+        where: { id: args.submitterId },
+      });
+
+      if (!user) {
+        throw new Error(`User with id ${args.submitterId} does not exist`);
+      }
+      
       return prisma.bean.create({
         ...query,
         data: {
@@ -135,9 +145,12 @@ builder.mutationFields((t) => ({
           photo: args.data.photo,
           origin: args.data.origin,
           process: args.data.process,
-          tastingNote: args.data.tastingnote,
+          tastingNote: args.data.tastingNotes,
           roaster: {
             connect: { id: args.data.roasterId }
+          },
+          submitter: {
+            connect: { id: args.submitterId}
           }
         },
       })

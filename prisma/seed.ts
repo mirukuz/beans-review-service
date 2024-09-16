@@ -44,15 +44,15 @@ async function main() {
         photo: faker.image.url(),
         process: faker.helpers.arrayElement(['Washed', 'Natural', 'Honey', 'Special', 'Other']),
         description: faker.lorem.sentence(),
-        tastingNote: faker.helpers.arrayElement(['Floral', 'Fruity', 'Cocoa', 'Sweetness', 'Sour', 'Baking', 'Spice', 'Green', 'Other']),
+        tastingNote: faker.helpers.arrayElements(['Floral', 'Fruity', 'Cocoa', 'Sweetness', 'Sour', 'Baking', 'Spice', 'Green', 'Other']),
         roaster: {
           connect: {
             id: roaster.id,
           },
         },
-        user: {
+        submitter: {
           connect: {
-            email: user.email,
+            id: user.id,
           },
         },
       };
