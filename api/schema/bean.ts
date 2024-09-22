@@ -51,10 +51,11 @@ builder.prismaObject('Bean', {
     id: t.exposeString('id'),
     name: t.exposeString('name'),
     roaster: t.relation('roaster'),
-    review: t.relation('review'),
+    reviews: t.relation('reviews'),
     description: t.exposeString('description'),
-    photo: t.exposeString('photo'),
-    tastingNote: t.expose('tastingNote', { type: [TastingNote] }),
+    image: t.exposeString('image'),
+    published: t.exposeBoolean('published'),
+    tastingNotes: t.expose('tastingNotes', { type: [TastingNote] }),
     process: t.expose('process', { type: Process }),
     website: t.exposeString('website'),
     origin: t.exposeString('origin'),
@@ -81,9 +82,6 @@ builder.queryFields((t) => ({
       searchString: t.arg.string(),
       skip: t.arg.int(),
       take: t.arg.int(),
-      //   orderBy: t.arg({
-      //     type: ReviewOrderByUpdatedAtInput,
-      //   }),
     },
     resolve: (query, parent, args) => {
       const or = args.searchString
@@ -102,14 +100,69 @@ builder.queryFields((t) => ({
       })
     },
   }),
+  allUnpublishedBeans: t.prismaField({
+    type: ['Bean'],
+    args: {
+      searchString: t.arg.string(),
+      skip: t.arg.int(),
+      take: t.arg.int(),
+    },
+    resolve: (query, parent, args) => {
+      const or = args.searchString
+        ? {
+            OR: [
+              { title: { contains: args.searchString } },
+              { content: { contains: args.searchString } },
+            ],
+          }
+        : {}
+
+      return prisma.bean.findMany({
+        ...query,
+        where: {
+          published: false,
+        },
+        take: args.take ?? undefined,
+        skip: args.skip ?? undefined,
+      })
+    },
+  }),
+  allPublishedBeans: t.prismaField({
+    type: ['Bean'],
+    args: {
+      searchString: t.arg.string(),
+      skip: t.arg.int(),
+      take: t.arg.int(),
+    },
+    resolve: (query, parent, args) => {
+      const or = args.searchString
+        ? {
+            OR: [
+              { title: { contains: args.searchString } },
+              { content: { contains: args.searchString } },
+            ],
+          }
+        : {}
+
+      return prisma.bean.findMany({
+        ...query,
+        where: {
+          published: true,
+        },
+        take: args.take ?? undefined,
+        skip: args.skip ?? undefined,
+      })
+    },
+  }),
 }))
 
 export const BeanCreateInput = builder.inputType('BeanCreateInput', {
   fields: (t) => ({
+    id: t.string({ required: true }),
     name: t.string({ required: true }),
     description: t.string({ required: true }),
     website: t.string({ required: false }),
-    photo: t.string({ required: false }),
+    image: t.string({ required: false }),
     tastingNotes: t.field({ type: [TastingNote], required: true}),
     process: t.field({ type: Process, required: true}),
     origin: t.field({ type: Origin, required: true}),
@@ -139,13 +192,14 @@ builder.mutationFields((t) => ({
       return prisma.bean.create({
         ...query,
         data: {
+          id: args.data.id,
           description: args.data.description,
           name: args.data.name,
           website: args.data.website,
-          photo: args.data.photo,
+          image: args.data.image,
           origin: args.data.origin,
           process: args.data.process,
-          tastingNote: args.data.tastingNotes,
+          tastingNotes: args.data.tastingNotes,
           roaster: {
             connect: { id: args.data.roasterId }
           },
@@ -153,6 +207,24 @@ builder.mutationFields((t) => ({
             connect: { id: args.submitterId}
           }
         },
+      })
+    },
+  }),
+  togglePublishBean: t.prismaField({
+    type: 'Bean',
+    args: {
+      id: t.arg.string({ required: true }),
+    },
+    resolve: async (query, parent, args) => {
+      // Toggling become simpler once this bug is resolved: https://github.com/prisma/prisma/issues/16715
+      const postPublished = await prisma.bean.findUnique({
+        where: { id: args.id},
+        select: { published: true }
+      })
+      return prisma.bean.update({
+        ...query,
+        where: { id: args.id },
+        data: { published: !postPublished?.published },
       })
     },
   }),

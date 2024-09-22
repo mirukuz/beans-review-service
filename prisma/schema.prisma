@@ -17,6 +17,7 @@ model User {
   email          String   @unique
   name           String?
   reviews        Review[]
+  isAdmin        Boolean  @default(false)
   joinedSince    DateTime @default(now())
   submittedBeans Bean[]   @relation("SubmittedBeans")
   reviewedBeans  Bean[]   @relation("ReviewedBeans")
@@ -46,7 +47,7 @@ model Roaster {
   country     String
   beans       Bean[]
   website     String?
-  photo       String?
+  image       String?
 }
 
 model Bean {
@@ -54,14 +55,14 @@ model Bean {
   name        String
   roaster     Roaster?       @relation(fields: [roasterId], references: [id])
   roasterId   String?
-  review      Review[]
+  reviews      Review[]
   published   Boolean       @default(false)
-  tastingNote TastingNote[]
+  tastingNotes TastingNote[]
   website     String?
   origin      Origin
   process     Process
   description String?
-  photo       String?
+  image       String?
   reviewers   User[]        @relation("ReviewedBeans")
   submitter   User         @relation("SubmittedBeans", fields: [submitterId], references: [id])
   submitterId String

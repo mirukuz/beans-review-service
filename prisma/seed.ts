@@ -10,6 +10,7 @@ async function main() {
     email: faker.internet.email(),
     joinedSince: faker.date.past(),
     avatar: faker.image.avatar(),
+    isAdmin: faker.datatype.boolean(),
   });
 
   // Create 3 random users
@@ -29,7 +30,7 @@ async function main() {
         description: faker.lorem.paragraph(),
         country: faker.location.country(),
         website: faker.internet.url(),
-        photo: faker.image.url(),
+        image: faker.image.url(),
       };
       return prisma.roaster.create({ data: roasterData });
     })
@@ -41,10 +42,10 @@ async function main() {
       const beanData: Prisma.BeanCreateInput = {
         name: faker.lorem.word(),
         origin: faker.helpers.arrayElement(['Brazil', 'CostaRica', 'Rwanda', 'ElSalvador', 'Peru']),
-        photo: faker.image.url(),
+        image: faker.image.url(),
         process: faker.helpers.arrayElement(['Washed', 'Natural', 'Honey', 'Special', 'Other']),
         description: faker.lorem.sentence(),
-        tastingNote: faker.helpers.arrayElements(['Floral', 'Fruity', 'Cocoa', 'Sweetness', 'Sour', 'Baking', 'Spice', 'Green', 'Other']),
+        tastingNotes: faker.helpers.arrayElements(['Floral', 'Fruity', 'Cocoa', 'Sweetness', 'Sour', 'Baking', 'Spice', 'Green', 'Other']),
         roaster: {
           connect: {
             id: roaster.id,

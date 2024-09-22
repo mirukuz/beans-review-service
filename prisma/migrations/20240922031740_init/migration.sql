@@ -12,6 +12,7 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT,
+    "isAdmin" BOOLEAN NOT NULL DEFAULT false,
     "joinedSince" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "avatar" TEXT,
 
@@ -42,7 +43,7 @@ CREATE TABLE "Roaster" (
     "address" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "website" TEXT,
-    "photo" TEXT,
+    "image" TEXT,
 
     CONSTRAINT "Roaster_pkey" PRIMARY KEY ("id")
 );
@@ -53,12 +54,12 @@ CREATE TABLE "Bean" (
     "name" TEXT NOT NULL,
     "roasterId" TEXT,
     "published" BOOLEAN NOT NULL DEFAULT false,
-    "tastingNote" "TastingNote"[],
+    "tastingNotes" "TastingNote"[],
     "website" TEXT,
     "origin" "Origin" NOT NULL,
     "process" "Process" NOT NULL,
     "description" TEXT,
-    "photo" TEXT,
+    "image" TEXT,
     "submitterId" TEXT NOT NULL,
 
     CONSTRAINT "Bean_pkey" PRIMARY KEY ("id")

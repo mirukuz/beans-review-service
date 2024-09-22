@@ -8,6 +8,7 @@ builder.prismaObject('User', {
     email: t.exposeString('email'),
     avatar: t.exposeString('avatar', { nullable: true }),
     reviews: t.relation('reviews'),
+    isAdmin: t.exposeBoolean('isAdmin'),
     reviewedBeans: t.prismaConnection({
       type: 'Bean',
       cursor: 'id',
@@ -15,7 +16,7 @@ builder.prismaObject('User', {
         const reviewedBeans = await prisma.bean.findMany({
           ...query,
           where: {
-            review: {
+            reviews: {
               some: {
                 authorId: user.id,
               },
@@ -76,6 +77,23 @@ const UserCreateInput = builder.inputType('UserCreateInput', {
 })
 
 builder.mutationFields((t) => ({
+  toggleUserAdmin: t.prismaField({
+    type: 'User',
+    args: {
+      id: t.arg.string({ required: true }),
+    },
+    resolve: async (query, parent, args) => {
+      const postIsAdmin = await prisma.user.findUnique({
+        where: { id: args.id},
+        select: { isAdmin: true }
+      })
+      return prisma.user.update({
+        ...query,
+        where: { id: args.id },
+        data: { isAdmin: !postIsAdmin?.isAdmin },
+      })
+    },
+  }),
   signupUser: t.prismaField({
     type: 'User',
     args: {
@@ -97,7 +115,8 @@ builder.mutationFields((t) => ({
         data: {
           email: args.data.email,
           name: args.data.name,
-          avatar: args.data.avatar
+          avatar: args.data.avatar,
+          isAdmin: false
         },
       })
     },
