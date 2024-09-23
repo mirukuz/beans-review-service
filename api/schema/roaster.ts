@@ -5,6 +5,7 @@ builder.prismaObject('Roaster', {
   fields: (t) => ({
     id: t.exposeString('id'),
     name: t.exposeString('name'),
+    published: t.exposeBoolean('published'),
     description: t.exposeString('description'),
     address: t.exposeString('address'),
     country: t.exposeString('country'),
@@ -68,6 +69,60 @@ builder.queryFields((t) => ({
         take: args.take ?? undefined,
         skip: args.skip ?? undefined,
         // orderBy: args.orderBy ?? undefined,
+      })
+    },
+  }),
+  allUnpublishedRoasters: t.prismaField({
+    type: ['Roaster'],
+    args: {
+      searchString: t.arg.string(),
+      skip: t.arg.int(),
+      take: t.arg.int(),
+    },
+    resolve: (query, parent, args) => {
+      const or = args.searchString
+        ? {
+            OR: [
+              { title: { contains: args.searchString } },
+              { content: { contains: args.searchString } },
+            ],
+          }
+        : {}
+
+      return prisma.roaster.findMany({
+        ...query,
+        where: {
+          published: false,
+        },
+        take: args.take ?? undefined,
+        skip: args.skip ?? undefined,
+      })
+    },
+  }),
+  allPublishedRoasters: t.prismaField({
+    type: ['Roaster'],
+    args: {
+      searchString: t.arg.string(),
+      skip: t.arg.int(),
+      take: t.arg.int(),
+    },
+    resolve: (query, parent, args) => {
+      const or = args.searchString
+        ? {
+            OR: [
+              { title: { contains: args.searchString } },
+              { content: { contains: args.searchString } },
+            ],
+          }
+        : {}
+
+      return prisma.roaster.findMany({
+        ...query,
+        where: {
+          published: true,
+        },
+        take: args.take ?? undefined,
+        skip: args.skip ?? undefined,
       })
     },
   }),
@@ -137,25 +192,24 @@ builder.mutationFields((t) => ({
       })
     },
   }),
-  // togglePublishReview: t.prismaField({
-  //   type: 'Review',
-  //   args: {
-  //     id: t.arg.string({ required: true }),
-  //   },
-  //   resolve: async (query, parent, args) => {
-  //     // Toggling become simpler once this bug is resolved: https://github.com/prisma/prisma/issues/16715
-  //     const reviewPublished = await prisma.review.findUnique({
-  //       where: { id: args.id},
-  //       select: { published: true }
-  //     })
-  //     console.log(reviewPublished)
-  //     return prisma.review.update({
-  //       ...query,
-  //       where: { id: args.id },
-  //       data: { published: !reviewPublished?.published },
-  //     })
-  //   },
-  // }),
+  togglePublishRoaster: t.prismaField({
+    type: 'Roaster',
+    args: {
+      id: t.arg.string({ required: true }),
+    },
+    resolve: async (query, parent, args) => {
+      // Toggling become simpler once this bug is resolved: https://github.com/prisma/prisma/issues/16715
+      const postPublished = await prisma.roaster.findUnique({
+        where: { id: args.id},
+        select: { published: true }
+      })
+      return prisma.roaster.update({
+        ...query,
+        where: { id: args.id },
+        data: { published: !postPublished?.published },
+      })
+    },
+  }),
   deleteRoaster: t.prismaField({
     type: 'Roaster',
     args: {
