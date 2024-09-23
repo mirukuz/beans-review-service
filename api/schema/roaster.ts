@@ -155,10 +155,11 @@ builder.queryFields((t) => ({
 
 export const RoasterCreateInput = builder.inputType('RoasterCreateInput', {
   fields: (t) => ({
+    id: t.string({ required: true }),
     name: t.string({ required: true }),
     description: t.string({ required: true }),
     country: t.string({ required: true }),
-    address: t.string({ required: true }),
+    address: t.string({ required: false }),
     website: t.string({ required: false }),
     image: t.string({ required: false }),
   }),
@@ -177,6 +178,7 @@ builder.mutationFields((t) => ({
       return prisma.roaster.create({
         ...query,
         data: {
+          id: args.data.id,
           description: args.data.description,
           name: args.data.name,
           country: args.data.country,

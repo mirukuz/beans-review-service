@@ -43,7 +43,7 @@ model Roaster {
   published   Boolean @default(false)
   name        String
   description String
-  address     String
+  address     String?
   country     String
   beans       Bean[]
   website     String?

@@ -40,7 +40,7 @@ CREATE TABLE "Roaster" (
     "published" BOOLEAN NOT NULL DEFAULT false,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
+    "address" TEXT,
     "country" TEXT NOT NULL,
     "website" TEXT,
     "image" TEXT,
