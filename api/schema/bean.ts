@@ -166,7 +166,7 @@ export const BeanCreateInput = builder.inputType('BeanCreateInput', {
     tastingNotes: t.field({ type: [TastingNote], required: true}),
     process: t.field({ type: Process, required: true}),
     origin: t.field({ type: Origin, required: true}),
-    roasterId: t.id({required: false})
+    roasterId: t.id({required: true})
   }),
 })
 
