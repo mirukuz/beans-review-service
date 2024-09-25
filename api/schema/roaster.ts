@@ -11,7 +11,7 @@ builder.prismaObject('Roaster', {
     country: t.exposeString('country'),
     website: t.exposeString('website'),
     beans: t.relation('beans'),
-    image: t.exposeString('image'),
+    images: t.exposeStringList('images'),
   }),
 })
 
@@ -161,7 +161,7 @@ export const RoasterCreateInput = builder.inputType('RoasterCreateInput', {
     country: t.string({ required: true }),
     address: t.string({ required: false }),
     website: t.string({ required: false }),
-    image: t.string({ required: false }),
+    images: t.stringList({ required: true }),
   }),
 })
 
@@ -184,7 +184,7 @@ builder.mutationFields((t) => ({
           country: args.data.country,
           address: args.data.address,
           website: args.data.website,
-          image: args.data.image
+          images: args.data.images
           // author: {
           //   connect: {
           //     email: args.authorEmail,

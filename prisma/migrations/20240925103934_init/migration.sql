@@ -29,7 +29,7 @@ CREATE TABLE "Review" (
     "authorId" TEXT NOT NULL,
     "beanId" TEXT NOT NULL,
     "rating" DOUBLE PRECISION NOT NULL,
-    "photo" TEXT,
+    "photos" TEXT[],
 
     CONSTRAINT "Review_pkey" PRIMARY KEY ("id")
 );
@@ -43,7 +43,7 @@ CREATE TABLE "Roaster" (
     "address" TEXT,
     "country" TEXT NOT NULL,
     "website" TEXT,
-    "image" TEXT,
+    "images" TEXT[],
 
     CONSTRAINT "Roaster_pkey" PRIMARY KEY ("id")
 );
@@ -59,7 +59,7 @@ CREATE TABLE "Bean" (
     "origin" "Origin" NOT NULL,
     "process" "Process" NOT NULL,
     "description" TEXT,
-    "image" TEXT,
+    "images" TEXT[],
     "submitterId" TEXT NOT NULL,
 
     CONSTRAINT "Bean_pkey" PRIMARY KEY ("id")

@@ -105,7 +105,7 @@ export const ReviewCreateInput = builder.inputType('ReviewCreateInput', {
   fields: (t) => ({
     content: t.string({ required: true }),
     rating: t.int({ required: true }),
-    photo: t.string()
+    photos: t.stringList({ required: true })
   }),
 })
 
@@ -126,7 +126,7 @@ builder.mutationFields((t) => ({
         data: {
           rating: args.data.rating,
           content: args.data.content,
-          photo: args.data.photo,
+          photos: args.data.photos,
           bean: {
             connect: {
               id: args.beanId,

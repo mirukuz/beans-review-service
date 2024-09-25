@@ -30,7 +30,7 @@ async function main() {
         description: faker.lorem.paragraph(),
         country: faker.location.country(),
         website: faker.internet.url(),
-        image: faker.image.url(),
+        images: Array.from({ length: 3 }).map(() => faker.image.url()),
       };
       return prisma.roaster.create({ data: roasterData });
     })
@@ -42,7 +42,7 @@ async function main() {
       const beanData: Prisma.BeanCreateInput = {
         name: faker.lorem.word(),
         origin: faker.helpers.arrayElement(['Brazil', 'CostaRica', 'Rwanda', 'ElSalvador', 'Peru']),
-        image: faker.image.url(),
+        images: Array.from({ length: 3 }).map(() => faker.image.url()),
         process: faker.helpers.arrayElement(['Washed', 'Natural', 'Honey', 'Special', 'Other']),
         description: faker.lorem.sentence(),
         tastingNotes: faker.helpers.arrayElements(['Floral', 'Fruity', 'Cocoa', 'Sweetness', 'Sour', 'Baking', 'Spice', 'Green', 'Other']),
@@ -66,7 +66,7 @@ async function main() {
         content: faker.lorem.paragraph(),
         published: true,
         rating: faker.number.int({ min: 1, max: 5 }),
-        photo: faker.image.url(),
+        photos: Array.from({ length: 3 }).map(() => faker.image.url()),
         bean: {
           connect: {
             id: createdBean.id,

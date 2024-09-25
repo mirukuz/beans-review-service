@@ -35,37 +35,37 @@ model Review {
   bean      Bean     @relation(fields: [beanId], references: [id])
   beanId    String
   rating    Float
-  photo     String?
+  photos     String[]
 }
 
 model Roaster {
-  id          String  @id @default(uuid())
-  published   Boolean @default(false)
+  id          String   @id @default(uuid())
+  published   Boolean  @default(false)
   name        String
   description String
   address     String?
   country     String
   beans       Bean[]
   website     String?
-  image       String?
+  images      String[]
 }
 
 model Bean {
-  id          String        @id @default(uuid())
-  name        String
-  roaster     Roaster?       @relation(fields: [roasterId], references: [id])
-  roasterId   String?
+  id           String        @id @default(uuid())
+  name         String
+  roaster      Roaster?      @relation(fields: [roasterId], references: [id])
+  roasterId    String?
   reviews      Review[]
-  published   Boolean       @default(false)
+  published    Boolean       @default(false)
   tastingNotes TastingNote[]
-  website     String?
-  origin      Origin
-  process     Process
-  description String?
-  image       String?
-  reviewers   User[]        @relation("ReviewedBeans")
-  submitter   User         @relation("SubmittedBeans", fields: [submitterId], references: [id])
-  submitterId String
+  website      String?
+  origin       Origin
+  process      Process
+  description  String?
+  images       String[]
+  reviewers    User[]        @relation("ReviewedBeans")
+  submitter    User          @relation("SubmittedBeans", fields: [submitterId], references: [id])
+  submitterId  String
 }
 
 enum Process {
