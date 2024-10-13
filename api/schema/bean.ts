@@ -210,13 +210,48 @@ builder.mutationFields((t) => ({
       })
     },
   }),
+  updateBean: t.prismaField({
+    type: 'Bean',
+    args: {
+      id: t.arg.string({ required: true }),
+      data: t.arg({
+        type: BeanCreateInput,
+        required: true,
+      }),
+    },
+    resolve: async (query, parent, args) => {
+      const bean = await prisma.bean.findUnique({
+        where: { id: args.id },
+      });
+
+      if (!bean) {
+        throw new Error(`Bean with id ${args.id} does not exist`);
+      }
+
+      return prisma.bean.update({
+        ...query,
+        where: { id: args.id },
+        data: {
+          name: args.data.name,
+          description: args.data.description,
+          website: args.data.website,
+          images: args.data.images,
+          origin: args.data.origin,
+          process: args.data.process,
+          tastingNotes: args.data.tastingNotes,
+          roaster: {
+            connect: { id: args.data.roasterId },
+          },
+        },
+      });
+    },
+  }),
   togglePublishBean: t.prismaField({
     type: 'Bean',
     args: {
       id: t.arg.string({ required: true }),
     },
     resolve: async (query, parent, args) => {
-      // Toggling become simpler once this bug is resolved: https://github.com/prisma/prisma/issues/16715
       const postPublished = await prisma.bean.findUnique({
         where: { id: args.id},
         select: { published: true }
